@@ -1,0 +1,73 @@
+﻿@model IEnumerable<Regency.Models.Booking>
+
+
+@{
+    ViewBag.Title = "List";
+
+}
+
+<div class="container">
+    <div class="col-md-2 animated shake">
+        <h2>Bookings</h2>
+
+        <br />
+    </div>
+    <div class="col-md-10">
+        <table id="bookings" class="table table-bordered table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Date Booked</th>
+                    <th>Customer</th>
+                    <th>Actor Booked</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var booking in Model)
+            {
+
+                    <tr>
+                        <td>
+                            @booking.DateBooked.ToShortDateString()
+                        </td>
+                        <td>
+                            @booking.Customer.Name
+                        </td>
+                        <td>
+                            @booking.Actor.Name
+                        </td>
+                        <td><button data-booking-id="@booking.Id" class="btn-link btn-xs js-delete">Delete</button></td>
+                    </tr>
+
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            var table = $("#bookings").DataTable();
+
+
+            $("#bookings").on("click", ".js-delete", function () {
+                var button = $(this);
+
+                bootbox.confirm("Are you sure you want to delete this booking?", function (result) {
+                    if (result) {
+                        $.ajax({
+                            url: "/api/bookings/" + button.attr("data-booking-id"),
+                            method: "DELETE",
+                            success: function () {
+                                table.row(button.parents("tr")).remove().draw();
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+}

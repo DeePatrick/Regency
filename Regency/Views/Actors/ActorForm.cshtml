@@ -1,0 +1,55 @@
+﻿@model Regency.Models.Actor
+@{
+    ViewBag.Title = "New Actor";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Add Actor's Details</h2>
+<div class="container">
+    @using (Html.BeginForm("Save", "Actors", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+    {
+        @Html.ValidationSummary(true, "Please fix the following errors.")
+        <div class="form-group">
+            @Html.LabelFor(m => m.Name)
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Name)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.DateActive, "Date Active")
+            @Html.TextBoxFor(m => m.DateActive, "{0:d MMM yyyy}", new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.DateActive)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.DateJoined, "Date Joined")
+            @Html.TextBoxFor(m => m.DateJoined, "{0:d MMM yyyy}", new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.DateJoined)
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Category)
+            @Html.TextBoxFor(m => m.Category, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Category)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Gender)
+            @Html.TextBoxFor(m => m.Gender, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Gender)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.ActorImage, "Actor Photo")
+            <input type="file" id="image1" name="image1" />
+            @Html.ValidationMessage("CustomMessage")
+        </div>
+
+        @Html.HiddenFor(m => m.Id)
+        @Html.AntiForgeryToken()
+        <button type="submit" class="btn btn-primary">Save</button>
+
+    }
+
+
+</div>
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,51 @@
+﻿@model IEnumerable<Regency.Models.Actor>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+    <div class="col-md-4">
+        <h2>Actors</h2>
+
+        <br />
+
+    </div>
+    <div class="col-md-8 col-lg-12">
+        <table id="actors" class="table table-bordered table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Photo</th>
+                    <th>Actors</th>
+                    <th>Category</th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var actor in Model)
+                {
+
+                    <tr>
+                        <td>
+                            <a href="@Url.Action("Detail","Actors", new { id = actor.Id }, null)"><img class="img-thumbnail" width="80" src="data:image;base64,@Convert.ToBase64String(actor.ActorImage)" /></a>
+                        </td>
+                        <td>@actor.Name</td>
+
+                        <td>@actor.Category</td>
+                    </tr>
+
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+@section scripts
+{
+    <script>
+        $(document).ready(function() {
+            $("#actors").DataTable();
+
+        });
+    </script>
+}

@@ -1,0 +1,87 @@
+﻿@model IEnumerable<Regency.Models.Customer>
+@*
+    Note: the model for this view is set to IEnumerable<Customer>.
+    This is a simple interface implemented by the list class. Since
+    in this view I only want to Iterate over this list, and don't need
+    any of the operations in the list class(e. Add, Remove etc), It
+    is better to use the IEnumerable interface, which allows us to iterate
+    over the list. If in the future, we replace the List with a
+    different data structure, as long as it is enumerable, our view code
+    will remain unchanged.
+*@
+
+<div class="col-md-4">
+    <h2>Customers</h2>
+
+    <div>
+        <a class="btn btn-primary animated fadeIn" href="@Url.Action("New", "Customers")">New Customer</a>
+    </div>
+    <br />
+</div>
+
+<div class="col-md-8">
+    <table id="customers" class="table table-bordered table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Customers</th>
+                <th>Membership Type</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+@Scripts.Render("~/bundles/lib")
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/bundles/lib")
+@Scripts.Render("~/bundles/modernizr")
+@Styles.Render("~/Content/css")
+
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            var table = $("#customers").DataTable({
+                ajax: {
+                    url: "/api/customers",
+                    dataSrc: ""
+                },
+                columns: [
+                    {
+                        data: "name",
+                        render: function (data, type, customer) {
+                            return "<a href='/customers/edit/" + customer.id + "'>" + customer.name + "</a>";
+                        }
+                    },
+                    {
+                        data: "membershipType.name"
+                    },
+                    {
+                        data: "id",
+                        render: function (data) {
+                            return "<button class='btn-link js-delete' data-customer-id=" + data + ">Delete</button>";
+                        }
+                    }
+                ]
+            });
+
+
+            $("#customers").on("click", ".js-delete", function () {
+                var button = $(this);
+
+                bootbox.confirm("Are you sure you want to delete this customer?", function (result) {
+                    if (result) {
+                        $.ajax({
+                            url: "/api/customers/" + button.attr("data-customer-id"),
+                            method: "DELETE",
+                            success: function () {
+                                table.row(button.parents("tr")).remove().draw();
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+}

@@ -38,7 +38,7 @@
                 </div>
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Log in" class="btn btn-default" />
+                        <input type="submit" value="Log in" class="btn btn-primary" />
                     </div>
                 </div>
                 <p>
@@ -52,8 +52,14 @@
         </section>
     </div>
     <div class="col-md-4">
-        <section id="socialLoginForm">
-            @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+        <section id="socialLoginForm" class="well animated bounceInDown">
+            @* @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })*@
+            For Demo Purposes to have full access to application Login with <br />Email: admin@regency.com<br />
+            Password: Password=123<br />
+            <p>
+                For Limited access Login with <br />Email: guest@regency.com<br />
+                Password: Password=123<br />
+            </p>
         </section>
     </div>
 </div>
@@ -61,3 +67,4 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
+

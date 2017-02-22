@@ -1,0 +1,22 @@
+﻿@model Regency.Models.Actor
+
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@Model.Name</h2>
+<div><img class="img-thumbnail" width="150" src="data:image;base64,@System.Convert.ToBase64String(Model.ActorImage)" /></div>
+<ul>
+    <li>Category: @Model.Category</li>
+    @if (Model.DateActive.HasValue)
+    {
+        <li>Date Active: @Model.DateActive.Value.ToShortDateString()</li>
+    }
+    <li>Date Joined: @Model.DateJoined.ToShortDateString()</li>
+    <li>Gender: @Model.Gender</li>
+</ul>
+
+<p>
+    <a class="btn btn-primary animated fadeIn" href="@Url.Action("Index", "Actors")">Back to List</a>
+</p>
